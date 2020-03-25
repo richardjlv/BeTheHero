@@ -1,9 +1,11 @@
+import crypto from 'crypto';
 import { Router } from 'express';
+
+import OngController from './controllers/OngController';
 
 const routes = new Router();
 
-routes.get('/users', (req, res) => {
-  return res.json({ message: 'ok' });
-});
+routes.get('/ongs', OngController.index);
+routes.post('/ongs', OngController.store);
 
 export default routes;
