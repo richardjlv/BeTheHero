@@ -1,7 +1,8 @@
 import React from 'react';
 
-// import { Container } from './styles';
+import './global.css';
+import Routes from './routes';
 
 export default function App() {
-  return <div>Hello</div>;
+  return <Routes />;
 }
