@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import './styles.css';
 import logoImg from '../../assets/logo.svg';
@@ -10,10 +10,11 @@ export default function Profile() {
   const [incidents, setIncidents] = useState([]);
   const ongId = localStorage.getItem('ongId');
   const ongName = localStorage.getItem('ongName');
+  const history = useHistory();
 
   useEffect(() => {
     async function loadIncidents() {
-      const response = await api.get('incidents', {
+      const response = await api.get('profile', {
         headers: {
           Authorization: ongId,
         },
@@ -25,6 +26,26 @@ export default function Profile() {
     loadIncidents();
   }, [ongId]);
 
+  async function handleDeleteIncident(id) {
+    try {
+      await api.delete(`incidents/${id}`, {
+        headers: {
+          Authorization: ongId,
+        },
+      });
+
+      setIncidents(incidents.filter((incident) => incident.id !== id));
+    } catch (err) {
+      alert('Erro ao deletar caso, tente novamente');
+    }
+  }
+
+  function handleLogout() {
+    localStorage.clear();
+
+    history.push('/');
+  }
+
   return (
     <div className="profile-container">
       <header>
@@ -34,7 +55,7 @@ export default function Profile() {
         <Link className="button" to="/incidents/new">
           Cadastrar novo caso
         </Link>
-        <button type="button">
+        <button type="button" onClick={handleLogout}>
           <FiPower size={18} color="#e02041" />
         </button>
       </header>
@@ -58,7 +79,9 @@ export default function Profile() {
               }).format(incident.value)}
             </p>
 
-            <button type="button">
+            <button
+              type="button"
+              onClick={() => handleDeleteIncident(incident.id)}>
               <FiTrash2 size={20} color="#a8b8b3" />
             </button>
           </li>
