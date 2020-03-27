@@ -1,3 +1,4 @@
+import { errors } from 'celebrate';
 import cors from 'cors';
 import express from 'express';
 
@@ -9,6 +10,7 @@ class App {
 
     this.middlewares();
     this.routes();
+    this.server.use(errors());
   }
 
   middlewares() {
