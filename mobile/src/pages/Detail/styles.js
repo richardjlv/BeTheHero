@@ -22,9 +22,15 @@ export default StyleSheet.create({
     marginTop: 48,
   },
 
+  incidentHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
   incidentProperty: {
     fontSize: 14,
     color: '#41414d',
+    marginTop: 24,
   },
 
   incidentValue: {
